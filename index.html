@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meazzy Motors</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #f4f4f9;
+      color: #222;
+    }
+
+    /* Navbar */
+    nav {
+      background: #003366;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      cursor: default;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      cursor: pointer;
+      font-weight: 600;
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+
+    nav ul li:hover {
+      background: #002244;
+    }
+
+    nav ul li.active {
+      background: #0055aa;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Search bar */
+    #searchBar {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      border: 2px solid #003366;
+      border-radius: 30px;
+      margin-bottom: 2rem;
+      outline: none;
+      transition: box-shadow 0.3s ease;
+    }
+
+    #searchBar:focus {
+      box-shadow: 0 0 8px #003366;
+      border-color: #0055aa;
+    }
+
+    /* Products grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+      gap: 2rem;
+    }
+
+    /* Product card */
+    .product-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .product-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .product-content {
+      padding: 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #003366;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .product-desc {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .product-price {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #e63946;
+      margin-bottom: 1rem;
+    }
+
+    .btn-add-cart {
+      background: #0055aa;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
+
+    .btn-add-cart:hover {
+      background: #003366;
+    }
+
+    /* Footer */
+    footer {
+      background: #003366;
+      color: white;
+      text-align: center;
+      padding: 1rem 0;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+    </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">Meazzy Motors</div>
+    <ul>
+      <li class="active" onclick="location.href='index.html'">Home</li>
+      <li onclick="location.href='about.html'">About Us</li>
+      <li onclick="location.href='profile.html'">Profile / Cart</li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <input type="text" id="searchBar" placeholder="Search motorcycles..." oninput="filterProducts()" />
+
+    <div class="products-grid" id="productsGrid">
+      <!-- Product cards get inserted by JS -->
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Meazzy Motors. All rights reserved.
+  </footer>
+
+  <script>
+    
+    const products = [
+      {
+        id: 1,
+        name: 'Meazzy Street Triple RS',
+        price: 12000,
+        img: 'images/street-triple-rs.jpg',
+        desc: 'A sporty naked bike with aggressive styling and top-tier performance. Perfect for city and track rides.'
+      },
+      {
+        id: 2,
+        name: 'Meazzy Bonneville T120',
+        price: 13000,
+        img: 'images/2.jpg',
+        desc: 'Classic Indonesian design combined with modern technology for a timeless motorcycle experience.'
+      },
+      {
+        id: 3,
+        name: 'Meazzy Tiger 900 Rally Pro',
+        price: 15000,
+        img: 'images/3.jpg',
+        desc: 'Adventure-ready bike with rally-spec parts, perfect for long-distance off-road travels.'
+      },
+      {
+        id: 4,
+        name: 'Meazzy Rocket 3 R',
+        price: 22000,
+        img: 'images/4.jpg',
+        desc: 'The muscle cruiser with the world’s largest production motorcycle engine, delivering immense torque.'
+      },
+      {
+        id: 5,
+        name: 'Meazzy Tiger Sport 660',
+        price: 11500,
+        img: 'images/5.jpg',
+        desc: 'A versatile sport-adventure motorcycle suitable for both city streets and weekend touring.'
+      }
+    ];
+
+    const productsGrid = document.getElementById('productsGrid');
+    const searchBar = document.getElementById('searchBar');
+
+    // Render product cards
+    function renderProducts(list) {
+      productsGrid.innerHTML = '';
+      if (list.length === 0) {
+        productsGrid.innerHTML = '<p>No motorcycles found.</p>';
+        return;
+      }
+      list.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <img src="${product.img}" alt="${product.name}" class="product-img" />
+          <div class="product-content">
+            <h3 class="product-title">${product.name}</h3>
+            <p class="product-desc">${product.desc}</p>
+            <div class="product-price">$${product.price.toLocaleString()}</div>
+            <button class="btn-add-cart" onclick="addToCart(${product.id})">Add to Cart</button>
+          </div>
+        `;
+        productsGrid.appendChild(card);
+      });
+    }
+
+    // Filter products based on search input
+    function filterProducts() {
+      const query = searchBar.value.toLowerCase();
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+      renderProducts(filtered);
+    }
+
+    // Cart management in localStorage to persist between pages
+    function getCart() {
+      let cart = localStorage.getItem('triumpShopCart');
+      return cart ? JSON.parse(cart) : [];
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('triumpShopCart', JSON.stringify(cart));
+    }
+
+    function addToCart(productId) {
+      const cart = getCart();
+      const existing = cart.find(item => item.id === productId);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ id: productId, qty: 1 });
+      }
+      saveCart(cart);
+      alert('Added to cart!');
+    }
+
+    // Initial render
+    renderProducts(products);
+  </script>
+</body>
+</html>
